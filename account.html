@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Account</title>
+    <link rel="stylesheet" href="account.css">
+  <link rel ="stylesheet" href="../animations/animations.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+      <button id="menuBtn" aria-label="Open menu" aria-expanded="false">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <aside class="sidebar" aria-hidden="true">
+    <div class="sidebar-top">
+      <h2>My Menu</h2>
+      <button id="closeBtn" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <nav class="nav-list" id="sidebarNav" role="navigation" aria-label="Main menu">
+      <a href="../reading page/index.html"><i class="fa-solid fa-book-open"></i><span>Stories</span></a>
+      <a href="../writing page/index.html"><i class="fa-solid fa-pen-nib"></i><span>writing</span></a>
+      <a href="../account/account.html"><i class="fa-solid fa-phone"></i><span>account</span></a>
+      <a href="../about/about.html"><i class="fa-solid fa-circle-info"></i><span>About</span></a>
+      <a href="../log in and sign page/sign in.html"><i class="fa-solid fa-user-plus"></i><span>sign up</span></a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <small>© <span id="year"></span> MySite</small>
+    </div>
+  </aside>
+
+  <div id="overlay" class="overlay" tabindex="-1"></div>
+
+<div class="container">
+
+    <h1>My Account</h1>
+
+    <!-- Profile Section -->
+    <div class="profile-box">
+        <img id="profileImg" src="https://via.placeholder.com/120" alt="profile">
+        <div class="profile-info">
+            <div class="name-row">
+                <h2 id="userName">Username</h2>
+                <button id="editNameBtn" class="icon-btn" title="Edit name">✎</button>
+            </div>
+            <div class="subtext" id="userEmail">user@example.com</div>
+
+            <div style="margin-top:12px;">
+                <label class="upload-btn">
+                    Change Photo
+                    <input type="file" id="photoUpload" style="display:none" accept="image/*">
+                </label>
+                <button id="logoutBtn" class="outline-btn">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANCHTANTRA CONTROL (ACCOUNT PAGE) -->
+<h2 class="section-title">Theme Control</h2>
+
+<div class="pt-account-control card">
+
+    <h3>🌍 Element Theme</h3>
+    <div class="pt-row">
+        <button onclick="PanchTantra.setTheme('fire')">🔥 Fire</button>
+        <button onclick="PanchTantra.setTheme('water')">💧 Water</button>
+        <button onclick="PanchTantra.setTheme('earth')">🪨 Earth</button>
+        <button onclick="PanchTantra.setTheme('sky')">🌌 Sky</button>
+        <button onclick="PanchTantra.setTheme('life')">🌿 Life</button>
+    </div>
+
+    <h3 style="margin-top:15px;">⚡ Mode</h3>
+    <div class="pt-row">
+        <button onclick="PanchTantra.setTheme(null,'normal')">⚖️ Normal</button>
+        <button onclick="PanchTantra.setTheme(null,'godly')">✨ God</button>
+        <button onclick="PanchTantra.setTheme(null,'demon')">💀 Demon</button>
+    </div>
+
+</div>
+
+    <!-- READING (Selected stories) -->
+    <h2 class="section-title">Reading (Selected Stories)</h2>
+    <div id="selectedStories" class="list-box"></div>
+
+    <!-- WRITING (My written stories) -->
+    <h2 class="section-title">Writing (My Stories)</h2>
+    <div id="writtenStories" class="list-box"></div>
+
+    <!-- OTHER WORKS -->
+    <h2 class="section-title">Other Works</h2>
+    <div id="otherWorks" class="list-box"></div>
+
+</div>
+
+<!-- Simple confirmation modal (hidden by default) -->
+<div id="modal" class="modal hidden">
+    <div class="modal-card">
+        <h3 id="modalTitle">Add Item</h3>
+        <input id="modalInput" placeholder="Enter title" />
+        <div class="modal-actions">
+            <button id="modalCancel" class="outline-btn">Cancel</button>
+            <button id="modalSave" class="save-btn">Save</button>
+        </div>
+    </div>
+</div>
+
+<script src="account.js"></script>
+ <script src="../animations/animations.js"></script>
+</body>
+</html>

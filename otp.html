@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTP Verification — Shah's Writing</title>
+  <link rel="stylesheet" href="otp.css">
+</head>
+<body>
+
+<div class="otp-wrapper">
+  <div class="otp-card">
+
+    <div class="otp-icon">✉️</div>
+    <h1>Verify Your Account</h1>
+    <p id="otpSubtitle">6-digit OTP enter karo jo aapke email pe bheja gaya hai</p>
+
+    <!-- OTP INPUT BOXES -->
+    <div class="otp-inputs" id="otpInputs">
+      <input type="text" maxlength="1" class="otp-box" inputmode="numeric" pattern="[0-9]">
+      <input type="text" maxlength="1" class="otp-box" inputmode="numeric" pattern="[0-9]">
+      <input type="text" maxlength="1" class="otp-box" inputmode="numeric" pattern="[0-9]">
+      <input type="text" maxlength="1" class="otp-box" inputmode="numeric" pattern="[0-9]">
+      <input type="text" maxlength="1" class="otp-box" inputmode="numeric" pattern="[0-9]">
+      <input type="text" maxlength="1" class="otp-box" inputmode="numeric" pattern="[0-9]">
+    </div>
+
+    <!-- ERROR MESSAGE -->
+    <div class="otp-error" id="otpError"></div>
+
+    <!-- VERIFY BUTTON -->
+    <button id="verifyBtn" class="verify-btn">Verify OTP</button>
+
+    <!-- RESEND -->
+    <p class="resend-text">
+      OTP nahi mila? <span id="resendBtn" class="resend-link">Resend</span>
+    </p>
+
+    <div class="back-link">
+      <a href="sign in.html">← Back to Sign Up</a>
+    </div>
+
+  </div>
+</div>
+
+<script src="otp.js"></script>
+</body>
+</html>

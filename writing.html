@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Writer Dashboard — Shah's Writing</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="writing.css">
+  <link rel="stylesheet" href="../animations/animations.css">
+</head>
+<body>
+
+  <!-- MENU BUTTON (Sidebar) -->
+  <button id="menuBtn" aria-label="Open menu" aria-expanded="false">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-hidden="true">
+    <div class="sidebar-top">
+      <h2>Menu</h2>
+      <button id="closeBtn" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <nav class="nav-list" id="sidebarNav" role="navigation" aria-label="Main menu"></nav>
+    <div class="sidebar-footer">
+      <small>© <span id="year"></span> Shah's Writing</small>
+    </div>
+  </aside>
+
+  <div id="overlay" class="overlay" tabindex="-1"></div>
+
+  <!-- WRITER TOPBAR -->
+  <header class="topbar">
+    <div class="brand">Writer Studio</div>
+    <div class="top-actions">
+      <button id="newWritingBtn" class="btn-primary">+ New Writing</button>
+    </div>
+  </header>
+
+  <!-- Category bar -->
+  <nav class="catbar" role="navigation" aria-label="Categories">
+    <button class="cat active" data-type="story">Stories</button>
+    <button class="cat" data-type="novel">Novels</button>
+    <button class="cat" data-type="book">Books</button>
+    <button class="cat" data-type="letter">Letters</button>
+  </nav>
+
+  <main class="container">
+    <!-- Pending -->
+    <section class="section">
+      <h2 class="section-title"><span class="accent-line"></span> Pending</h2>
+      <div class="big-row" id="pendingRow" aria-live="polite"></div>
+    </section>
+
+    <!-- Continued -->
+    <section class="section">
+      <h2 class="section-title"><span class="accent-line"></span> Continued</h2>
+      <div class="big-row" id="continuedRow" aria-live="polite"></div>
+    </section>
+
+    <!-- Completed -->
+    <section class="section">
+      <h2 class="section-title"><span class="accent-line"></span> Completed</h2>
+      <div class="big-row" id="completedRow" aria-live="polite"></div>
+    </section>
+
+    <!-- Today's Goals -->
+    <aside class="goals">
+      <h3>Today's Writing Goals</h3>
+      <ul id="goalsList">
+        <li>✍️ Write at least 500 words</li>
+        <li>⏱ Continue last draft</li>
+        <li>🔁 Review previous chapter</li>
+      </ul>
+      <h4>Quick Notes</h4>
+      <textarea id="quickNotes" placeholder="Small ideas / reminders..."></textarea>
+    </aside>
+  </main>
+
+  <!-- Create modal -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button id="closeModal" class="modal-close" aria-label="Close">✕</button>
+      <h3 id="modalTitle">Create New Writing</h3>
+
+      <label class="frow">
+        <span>Title</span>
+        <input id="inputTitle" type="text" placeholder="Enter title..." />
+      </label>
+
+      <label class="frow">
+        <span>Category</span>
+        <select id="inputCategory">
+          <option value="story">Story</option>
+          <option value="novel">Novel</option>
+          <option value="book">Book</option>
+          <option value="letter">Letter</option>
+        </select>
+      </label>
+
+      <label class="frow" id="letterSubtypeWrap" style="display:none">
+        <span>Letter Type</span>
+        <select id="inputLetterType">
+          <option value="resume">Resume</option>
+          <option value="script">Script</option>
+          <option value="cover">Cover Letter</option>
+        </select>
+      </label>
+
+      <label class="frow">
+        <span>Status</span>
+        <select id="inputStatus">
+          <option value="pending">Pending</option>
+          <option value="continued">Continued</option>
+          <option value="completed">Completed</option>
+        </select>
+      </label>
+
+      <label class="frow">
+        <span>Cover Image</span>
+        <input id="inputImage" type="file" accept="image/*" />
+      </label>
+
+      <div class="image-preview" id="imgPreviewWrap" style="display:none">
+        <img id="imgPreview" alt="cover preview"/>
+      </div>
+
+      <div class="modal-actions">
+        <button id="saveItem" class="btn-primary">Create</button>
+        <button id="cancelCreate" class="btn-ghost">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="writing.js"></script>
+  <script src="../animations/animations.js"></script>
+</body>
+</html>

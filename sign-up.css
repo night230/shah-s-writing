@@ -1,0 +1,222 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('sign in.png') no-repeat center center/cover;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 0;
+}
+
+.signin-container {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 40px 30px;
+    border-radius: 20px;
+    width: 360px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    text-align: center;
+    color: #fff;
+}
+
+.signin-container h2 {
+    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 600;
+    text-shadow: 1px 1px 6px rgba(0,0,0,0.4);
+}
+
+.signin-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.signin-form label {
+    text-align: left;
+    font-weight: 500;
+    margin-bottom: 5px;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.signin-form input[type="text"],
+.signin-form input[type="email"],
+.signin-form input[type="password"] {
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(255,255,255,0.25);
+    color: #fff;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.signin-form input::placeholder {
+    color: #eee;
+}
+
+.signin-form input:focus {
+    background: rgba(255,255,255,0.35);
+    outline: 2px solid #00d4ff;
+    box-shadow: 0 0 8px #00d4ff;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.checkbox-container input[type="checkbox"] {
+    accent-color: #00d4ff;
+}
+
+.checkbox-container label {
+    margin-left: 8px;
+    font-size: 13px;
+    color: #fff;
+}
+
+.btn-signin {
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    margin: 10px 0;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    background: linear-gradient(45deg, #00d4ff, #0066ff);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(0,212,255,0.5);
+}
+
+.btn-signin:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,212,255,0.7);
+}
+
+.or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 15px 0;
+    font-weight: 500;
+    font-size: 14px;
+    color: #fff;
+}
+
+.or-divider span {
+    padding: 0 10px;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.5);
+}
+
+/* Google Button Container */
+.googleBtn {
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* Links */
+.links {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.links a {
+    color: #00d4ff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.links a:hover {
+    text-decoration: underline;
+    transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    .signin-container {
+        width: 90%;
+        padding: 30px 20px;
+    }
+}
+
+/* Input focus glow */
+.input-focus {
+    box-shadow: 0 0 15px #00eaff;
+}
+
+/* Shake animation */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    50% { transform: translateX(8px); }
+    75% { transform: translateX(-8px); }
+    100% { transform: translateX(0); }
+}
+
+/* Error popup */
+.errorPopup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,50,50,0.9);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 12px;
+    opacity: 1;
+    z-index: 100;
+    transition: opacity 0.3s ease;
+}
+.errorPopup.hide {
+    opacity: 0;
+}
+/* Success animation */
+@keyframes successGlow {
+    0% { box-shadow: 0 0 10px #00ff6a; }
+    50% { box-shadow: 0 0 20px #00ff6a; }
+    100% { box-shadow: 0 0 10px #00ff6a; }
+}
+.successAnimation {
+    animation: successGlow 1s ease-in-out;
+}
+/* Text box */
+input[type="text"] {
+    width: 300px;
+    padding: 12px;
+    margin-bottom: 15px;  /* ← Yahi text box ke neeche ka gap */
+}

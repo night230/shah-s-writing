@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WriteSpace — Writing Platform (Single file)</title>
+<style>
+  :root{
+    --bg:#0f1720;
+    --card:#0b1220;
+    --muted:#98a0b3;
+    --accent:#7c5cff;
+    --glass: rgba(255,255,255,0.03);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:linear-gradient(180deg,var(--bg),#08101a);
+    color:#e6eef8;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  header{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    padding:12px 20px;
+    background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);
+    border-bottom:1px solid rgba(255,255,255,0.03);
+  }
+  .brand{font-weight:700; font-size:18px; color:var(--accent)}
+  .spacer{flex:1}
+  .btn{
+    background:var(--accent);
+    border:none;
+    color:white;
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .container{
+    display:grid;
+    grid-template-columns:260px 1fr 340px;
+    gap:18px;
+    padding:18px;
+    width:100%;
+    max-width:1200px;
+    margin:18px auto;
+    flex:1;
+  }
+  /* left sidebar */
+  .card{
+    background:var(--card);
+    border-radius:12px;
+    padding:14px;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+    border:1px solid rgba(255,255,255,0.02);
+  }
+  nav .item{display:flex;gap:10px;align-items:center;padding:10px;border-radius:8px;cursor:pointer;color:var(--muted)}
+  nav .item:hover{background:var(--glass); color: #fff}
+  .profile{
+    display:flex; gap:12px; align-items:center; padding:10px 0;
+  }
+  .avatar{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#5bd0ff);display:flex;align-items:center;justify-content:center;font-weight:700}
+  .small{font-size:13px;color:var(--muted)}
+  /* editor column */
+  .editor-wrap{display:flex;flex-direction:column;gap:12px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap}
+  .tool{background:transparent;border:1px solid rgba(255,255,255,0.03);padding:8px;border-radius:8px;cursor:pointer;color:var(--muted)}
+  .tool:hover{color:#fff; border-color:rgba(255,255,255,0.06)}
+  .title-input{font-size:20px;padding:10px;border-radius:10px;border:none;background:rgba(255,255,255,0.02);color:inherit}
+  .editor{
+    min-height:360px;
+    border-radius:10px;
+    padding:16px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+    border:1px solid rgba(255,255,255,0.02);
+    overflow:auto;
+  }
+  .editor[contenteditable="true"]:focus{outline: 2px solid rgba(124,92,255,0.14)}
+  /* right column */
+  .posts-list{display:flex;flex-direction:column;gap:10px}
+  .post-row{padding:10px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);display:flex;justify-content:space-between;align-items:center}
+  .muted{color:var(--muted);font-size:13px}
+  footer{padding:14px;text-align:center;color:var(--muted);font-size:13px}
+  /* login modal */
+  .modal-back{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:flex;align-items:center;justify-content:center;z-index:50}
+  .modal{width:380px;background:linear-gradient(180deg,#091018,#071018);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+  .field{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+  input[type="text"], input[type="password"], input[type="email"]{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit}
+  .links{display:flex;gap:8px;align-items:center}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px;border-radius:8px;color:var(--muted);cursor:pointer}
+  /* responsive */
+  @media (max-width:980px){
+    .container{grid-template-columns:1fr; padding:12px}
+    .container > :nth-child(3){order:3}
+    .container > :nth-child(1){order:2}
+  }
+</style>
+<link rel="stylesheet" href="./animations/animations.css">
+</head>
+<body>
+  <header>
+    <div class="brand">WriteSpace</div>
+    <div class="small">Your place to write & publish</div>
+    <div class="spacer"></div>
+    <div id="top-controls"></div>
+  </header>
+
+  <main class="container">
+    <!-- LEFT NAV -->
+    <aside class="card" id="left-col">
+      <div style="display:flex;gap:12px;align-items:center;justify-content:space-between;">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="avatar" id="left-avatar">W</div>
+          <div>
+            <div id="left-name">Guest</div>
+            <div class="small" id="left-email">Not signed in</div>
+          </div>
+        </div>
+      </div>
+
+      <hr style="margin:10px 0; opacity:0.06">
+      <nav>
+        <div class="item" data-action="new">✍️ New Post</div>
+        <div class="item" data-action="drafts">🗂 Drafts</div>
+        <div class="item" data-action="published">📚 Published</div>
+        <div class="item" data-action="profile">👤 Profile</div>
+        <div class="item" data-action="settings">⚙️ Settings</div>
+      </nav>
+    </aside>
+
+    <!-- EDITOR / MAIN -->
+    <section class="card editor-wrap" id="main-col">
+      <div id="editor-top" style="display:flex;gap:8px;align-items:center;justify-content:space-between">
+        <input id="post-title" class="title-input" placeholder="Post title..." />
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn tool" id="save-draft">Save draft</button>
+          <button class="btn tool" id="publish-post">Publish</button>
+        </div>
+      </div>
+
+      <div class="toolbar" id="toolbar">
+        <button class="tool" data-cmd="bold"><b>B</b></button>
+        <button class="tool" data-cmd="italic"><i>I</i></button>
+        <button class="tool" data-cmd="underline"><u>U</u></button>
+        <button class="tool" data-cmd="h1">H1</button>
+        <button class="tool" data-cmd="h2">H2</button>
+        <button class="tool" id="insert-link">Link</button>
+        <button class="tool" id="insert-image">Image</button>
+        <button class="tool" data-cmd="ul">• List</button>
+        <button class="tool" data-cmd="ol">1. List</button>
+        <button class="tool" id="clear-format">Clear</button>
+      </div>
+
+      <div id="editor" class="editor" contenteditable="true" spellcheck="true" placeholder="Write your story..."></div>
+    </section>
+
+    <!-- RIGHT: POSTS -->
+    <aside class="card" id="right-col">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div><strong>Your Posts</strong></div>
+        <div class="muted" id="posts-count">0</div>
+      </div>
+
+      <div style="margin-bottom:10px">
+        <input id="search-posts" placeholder="Search posts..." style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit"/>
+      </div>
+
+      <div class="posts-list" id="posts-list"></div>
+    </aside>
+  </main>
+
+  <footer>Made with ♥ — WriteSpace</footer>
+
+  <!-- LOGIN / SIGNUP MODAL -->
+  <div id="modal-root" style="display:none"></div>
+
+<script>
+/* ========== Simple localStorage-backed app state ========== */
+const LS_USER_KEY = 'ws_user_v1';
+const LS_POSTS_KEY = 'ws_posts_v1'; // array of posts
+let state = {
+  user: null,
+  posts: []
+};
+
+function saveState(){
+  if(state.user) localStorage.setItem(LS_USER_KEY, JSON.stringify(state.user));
+  localStorage.setItem(LS_POSTS_KEY, JSON.stringify(state.posts));
+}
+function loadState(){
+  const rawUser = localStorage.getItem(LS_USER_KEY);
+  const rawPosts = localStorage.getItem(LS_POSTS_KEY);
+  state.user = rawUser ? JSON.parse(rawUser) : null;
+  state.posts = rawPosts ? JSON.parse(rawPosts) : [];
+}
+loadState();
+
+/* ========== Utilities ========== */
+function uid(prefix='id'){
+  return prefix + '_' + Math.random().toString(36).slice(2,9);
+}
+function el(tag, attrs={}, children=[]){
+  const d = document.createElement(tag);
+  for(const k in attrs) {
+    if(k.startsWith('on') && typeof attrs[k] === 'function') d.addEventListener(k.slice(2), attrs[k]);
+    else if(k === 'html') d.innerHTML = attrs[k];
+    else d.setAttribute(k, attrs[k]);
+  }
+  children.forEach(c => typeof c === 'string' ? d.appendChild(document.createTextNode(c)) : d.appendChild(c));
+  return d;
+}
+
+/* ========== UI References ========== */
+const topControls = document.getElementById('top-controls');
+const leftName = document.getElementById('left-name');
+const leftEmail = document.getElementById('left-email');
+const leftAvatar = document.getElementById('left-avatar');
+const postsListEl = document.getElementById('posts-list');
+const postsCountEl = document.getElementById('posts-count');
+const postTitleEl = document.getElementById('post-title');
+const editorEl = document.getElementById('editor');
+
+/* ========== Auth UI ========== */
+function renderTopControls(){
+  topControls.innerHTML = '';
+  if(state.user){
+    const btnLogout = el('button',{class:'btn btn-ghost', onclick:() => { logout(); }}, ['Logout']);
+    const userBtn = el('button',{class:'btn', onclick:()=>{ showProfile(); }}, [state.user.name || state.user.email || 'Me']);
+    topControls.appendChild(userBtn);
+    topControls.appendChild(btnLogout);
+  } else {
+    const btn = el('button',{class:'btn', onclick:()=>{ showAuthModal(); }}, ['Sign in / Sign up']);
+    topControls.appendChild(btn);
+  }
+  renderLeftProfile();
+}
+
+/* update left profile */
+function renderLeftProfile(){
+  leftName.textContent = state.user ? (state.user.name || state.user.email) : 'Guest';
+  leftEmail.textContent = state.user ? (state.user.email || '') : 'Not signed in';
+  leftAvatar.textContent = state.user ? (state.user.name ? state.user.name[0].toUpperCase() : 'U') : 'W';
+}
+
+/* Basic modal */
+function showModal(htmlContent){
+  const root = document.getElementById('modal-root');
+  root.innerHTML = '';
+  root.style.display = 'flex';
+  root.className = 'modal-back';
+  const box = el('div',{class:'modal'});
+  box.innerHTML = htmlContent;
+  root.appendChild(box);
+  root.addEventListener('click', (e)=> {
+    if(e.target === root) root.style.display='none';
+  });
+}
+function closeModal(){ document.getElementById('modal-root').style.display='none'; }
+
+/* Auth modal with simple signup */
+function showAuthModal(){
+  showModal(`
+    <h3 style="margin-top:0">Welcome to WriteSpace</h3>
+    <div class="field">
+      <label class="small">Name (optional)</label>
+      <input id="auth-name" type="text" placeholder="Your name" />
+    </div>
+    <div class="field">
+      <label class="small">Email</label>
+      <input id="auth-email" type="email" placeholder="you@example.com" />
+    </div>
+    <div class="field">
+      <label class="small">Password (min 4 chars)</label>
+      <input id="auth-pass" type="password" placeholder="password" />
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+      <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn" onclick="authSubmit()">Continue</button>
+    </div>
+  `);
+  // Attach functions to window so inline onclick works
+  window.authSubmit = () => {
+    const name = document.getElementById('auth-name').value.trim();
+    const email = document.getElementById('auth-email').value.trim();
+    const pass = document.getElementById('auth-pass').value;
+    if(!email || pass.length < 4){ alert('Enter valid email and password (min 4 chars)'); return; }
+    // create user object
+    const user = { id: uid('u'), name: name || null, email, createdAt: Date.now() };
+    state.user = user;
+    saveState();
+    closeModal();
+    renderTopControls();
+    renderPosts();
+    alert('Signed in as ' + (name || email));
+  };
+}
+
+/* logout */
+function logout(){
+  state.user = null;
+  localStorage.removeItem(LS_USER_KEY);
+  renderTopControls();
+  renderPosts();
+}
+
+/* show profile */
+function showProfile(){
+  if(!state.user) { showAuthModal(); return; }
+  showModal(`
+    <h3>Profile</h3>
+    <div class="field"><label class="small">Name</label><input id="pf-name" type="text" value="${escapeHtml(state.user.name||'')}" /></div>
+    <div class="field"><label class="small">Email</label><input id="pf-email" type="email" value="${escapeHtml(state.user.email||'')}" /></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn-ghost" onclick="closeModal()">Close</button>
+      <button class="btn" onclick="saveProfile()">Save</button>
+    </div>
+  `);
+  window.saveProfile = () => {
+    const n = document.getElementById('pf-name').value.trim();
+    const e = document.getElementById('pf-email').value.trim();
+    state.user.name = n || state.user.name;
+    state.user.email = e || state.user.email;
+    saveState();
+    renderTopControls();
+    closeModal();
+    alert('Profile updated');
+  };
+}
+
+/* ========== Posts management ========== */
+function createPost({title='',html='',status='draft',id=null} = {}){
+  if(!state.user){ alert('Please sign in to save posts'); showAuthModal(); return; }
+  const p = {
+    id: id || uid('p'),
+    authorId: state.user.id,
+    title: title || 'Untitled',
+    html: html || '',
+    status, // draft or published
+    createdAt: Date.now(),
+    updatedAt: Date.now()
+  };
+  state.posts.unshift(p);
+  saveState();
+  renderPosts();
+  return p;
+}
+
+function updatePost(id, updates){
+  const idx = state.posts.findIndex(x=>x.id===id);
+  if(idx === -1) return null;
+  state.posts[idx] = {...state.posts[idx], ...updates, updatedAt: Date.now()};
+  saveState();
+  renderPosts();
+  return state.posts[idx];
+}
+
+function deletePost(id){
+  if(!confirm('Delete post permanently?')) return;
+  state.posts = state.posts.filter(x=>x.id!==id);
+  saveState();
+  renderPosts();
+}
+
+/* ========== Render posts list ========== */
+function renderPosts(filter=''){
+  postsListEl.innerHTML = '';
+  const userPosts = state.user ? state.posts.filter(p => p.authorId === state.user.id) : [];
+  const toShow = userPosts.filter(p => p.title.toLowerCase().includes(filter.toLowerCase()) || (p.html||'').toLowerCase().includes(filter.toLowerCase()));
+  postsCountEl.textContent = toShow.length;
+  if(toShow.length === 0) {
+    postsListEl.innerHTML = '<div class="muted">No posts yet. Create your first post!</div>';
+    return;
+  }
+  toShow.forEach(p => {
+    const box = el('div',{class:'post-row'});
+    const left = el('div',{},[
+      el('div',{},[ el('strong',{},[p.title]) ]),
+      el('div',{class:'muted'},[ new Date(p.updatedAt).toLocaleString() + ' • ' + (p.status === 'published' ? 'Published' : 'Draft') ])
+    ]);
+    const actions = el('div',{},[]);
+    const btnOpen = el('button',{class:'tool', onclick:()=>{ openPostToEditor(p.id); }}, ['Open']);
+    const btnPublish = el('button',{class:'tool', onclick:()=>{ togglePublish(p.id); }}, [p.status==='published' ? 'Unpublish' : 'Publish']);
+    const btnDelete = el('button',{class:'tool', onclick:()=>{ deletePost(p.id); }}, ['Delete']);
+    actions.appendChild(btnOpen); actions.appendChild(btnPublish); actions.appendChild(btnDelete);
+    box.appendChild(left); box.appendChild(actions);
+    postsListEl.appendChild(box);
+  });
+}
+
+/* open post into editor */
+function openPostToEditor(id){
+  const p = state.posts.find(x=>x.id===id);
+  if(!p) return alert('Post not found');
+  postTitleEl.value = p.title;
+  editorEl.innerHTML = p.html;
+  editorEl.dataset.editing = p.id;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* publish / unpublish */
+function togglePublish(id){
+  const p = state.posts.find(x=>x.id===id);
+  if(!p) return;
+  const newStatus = p.status === 'published' ? 'draft' : 'published';
+  updatePost(id, {status: newStatus});
+  alert('Post ' + (newStatus==='published' ? 'published' : 'moved to drafts'));
+}
+
+/* ========== Editor toolbar actions ========== */
+document.getElementById('toolbar').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const cmd = btn.dataset.cmd;
+  if(cmd){
+    if(cmd === 'h1') document.execCommand('formatBlock', false, 'h1');
+    else if(cmd === 'h2') document.execCommand('formatBlock', false, 'h2');
+    else document.execCommand(cmd, false, null);
+    editorEl.focus();
+  }
+});
+document.getElementById('insert-link').addEventListener('click', ()=>{
+  const url = prompt('Enter URL');
+  if(url) document.execCommand('createLink', false, url);
+  editorEl.focus();
+});
+document.getElementById('insert-image').addEventListener('click', ()=>{
+  const url = prompt('Image URL (or leave empty to paste image directly)');
+  if(url){
+    document.execCommand('insertImage', false, url);
+  } else {
+    alert('You can paste images directly (Ctrl+V) into the editor in many browsers.');
+  }
+});
+document.getElementById('clear-format').addEventListener('click', ()=>{
+  document.execCommand('removeFormat', false, null);
+  alert('Cleared inline formatting for selection');
+});
+
+/* Save draft / publish actions */
+document.getElementById('save-draft').addEventListener('click', ()=>{
+  if(!state.user){ showAuthModal(); return; }
+  const title = postTitleEl.value.trim() || 'Untitled';
+  const html = editorEl.innerHTML.trim();
+  const editingId = editorEl.dataset.editing;
+  if(editingId){
+    updatePost(editingId, {title, html, status:'draft'});
+    alert('Draft updated');
+  } else {
+    createPost({title, html, status:'draft'});
+    alert('Draft saved');
+  }
+});
+
+document.getElementById('publish-post').addEventListener('click', ()=>{
+  if(!state.user){ showAuthModal(); return; }
+  const title = postTitleEl.value.trim() || 'Untitled';
+  const html = editorEl.innerHTML.trim();
+  const editingId = editorEl.dataset.editing;
+  if(editingId){
+    updatePost(editingId, {title, html, status:'published'});
+    alert('Post published');
+  } else {
+    createPost({title, html, status:'published'});
+    alert('Post published');
+  }
+  // clear editor after publish
+  postTitleEl.value = '';
+  editorEl.innerHTML = '';
+  editorEl.dataset.editing = '';
+});
+
+/* search */
+document.getElementById('search-posts').addEventListener('input', (e)=>{
+  renderPosts(e.target.value);
+});
+
+/* left nav interactions */
+document.querySelectorAll('#left-col nav .item').forEach(it=>{
+  it.addEventListener('click', ()=> {
+    const action = it.dataset.action;
+    if(action === 'new'){
+      postTitleEl.value = '';
+      editorEl.innerHTML = '';
+      editorEl.dataset.editing = '';
+      window.scrollTo({top:0,behavior:'smooth'});
+    } else if(action === 'drafts'){
+      // filter to drafts only
+      postsListEl.innerHTML = '';
+      const userPosts = state.user ? state.posts.filter(p=>p.authorId===state.user.id && p.status==='draft') : [];
+      if(userPosts.length===0) postsListEl.innerHTML = '<div class="muted">No drafts</div>';
+      else {
+        userPosts.forEach(p=>{
+          const box = el('div',{class:'post-row'});
+          box.innerHTML = `<div><strong>${escapeHtml(p.title)}</strong><div class="muted">${new Date(p.updatedAt).toLocaleString()}</div></div>
+            <div><button class="tool" onclick="openPostToEditor('${p.id}')">Open</button></div>`;
+          postsListEl.appendChild(box);
+        });
+      }
+    } else if(action === 'published'){
+      postsListEl.innerHTML = '';
+      const userPosts = state.user ? state.posts.filter(p=>p.authorId===state.user.id && p.status==='published') : [];
+      if(userPosts.length===0) postsListEl.innerHTML = '<div class="muted">No published posts</div>';
+      else {
+        userPosts.forEach(p=>{
+          const box = el('div',{class:'post-row'});
+          box.innerHTML = `<div><strong>${escapeHtml(p.title)}</strong><div class="muted">${new Date(p.updatedAt).toLocaleString()}</div></div>
+            <div><button class="tool" onclick="openPostToEditor('${p.id}')">Open</button></div>`;
+          postsListEl.appendChild(box);
+        });
+      }
+    } else if(action === 'profile') showProfile();
+    else alert('Not implemented yet');
+  });
+});
+
+/* ========== Helpers for escaping & init ========== */
+function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* init render */
+renderTopControls();
+renderPosts();
+
+/* keyboard shortcut: Ctrl+S to save draft */
+window.addEventListener('keydown', (e)=>{
+  if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's'){
+    e.preventDefault();
+    document.getElementById('save-draft').click();
+  }
+});
+</script>
+<script src="./animations/animations.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="../animations/animations.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <title>Login — Shah's Writing</title>
+</head>
+<body>
+  <div class="auth-bg"></div>
+
+  <div class="auth-wrap">
+    <div class="auth-brand">
+      <i style="font-size:28px; color:#00eaff;">✍</i>
+      <span>Shah's Writing</span>
+    </div>
+
+    <div class="auth-card">
+      <h1>Welcome Back</h1>
+      <p class="auth-sub">Login to continue your story</p>
+
+      <form id="loginForm">
+        <div class="field-group">
+          <label>Username</label>
+          <input type="text" id="lg-username" placeholder="Your username" required>
+        </div>
+        <div class="field-group">
+          <label>Password</label>
+          <div class="pass-wrap">
+            <input type="password" id="lg-password" placeholder="Your password" required>
+            <span class="eye-toggle" onclick="togglePass('lg-password', this)">👁</span>
+          </div>
+        </div>
+        <div class="login-extras">
+          <a href="forgotten-password.html" class="forgot-link">Forgot Password?</a>
+        </div>
+        <button type="submit" id="loginBtn" class="auth-btn">Login</button>
+      </form>
+
+      <div class="or-divider"><span>or</span></div>
+
+      <div id="g_id_onload"
+        data-client_id="770205631596-2399gdd58crd5sd8n6ambjks4bplarb3.apps.googleusercontent.com"
+        data-auto_prompt="false"
+        data-callback="handleGoogleLogin">
+      </div>
+      <div class="g-btn-wrap">
+        <div class="g_id_signin" data-type="standard" data-size="large"
+          data-theme="outline" data-text="sign_in_with" data-shape="rectangular">
+        </div>
+      </div>
+
+      <p class="auth-switch">
+        Don't have an account? <a href="sign in.html">Sign Up</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script src="../animations/animations.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Shah's Writing</title>
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="../animations/animations.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <button id="menuBtn" aria-label="Open menu" aria-expanded="false">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <aside class="sidebar" aria-hidden="true">
+    <div class="sidebar-top">
+      <h2>Menu</h2>
+      <button id="closeBtn" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Nav links filled dynamically by home.js based on login state -->
+    <nav class="nav-list" id="sidebarNav" role="navigation" aria-label="Main menu"></nav>
+
+    <div class="sidebar-footer">
+      <small>© <span id="year"></span> Shah's Writing</small>
+    </div>
+  </aside>
+
+  <div id="overlay" class="overlay" tabindex="-1"></div>
+
+  <main class="content" id="mainContent">
+
+    <header class="hero">
+      <h1 id="heroTitle">Welcome to Shah's Writing</h1>
+      <p id="heroSub">Stories, novels, poems — your world in words.</p>
+      <div class="hero-btns" id="heroBtns"></div>
+    </header>
+
+    <section class="controls">
+      <div class="search-container">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="search-bar" placeholder="Search stories..." />
+        <i class="fa-solid fa-microphone" id="micBtn"></i>
+      </div>
+    </section>
+
+    <section class="extra-sections">
+
+      <!-- CATEGORIES -->
+      <section class="category-section">
+        <h2>Categories</h2>
+        <div class="cat-box">
+          <button class="cat-btn">🔥 Trending</button>
+          <button class="cat-btn">📚 Novels</button>
+          <button class="cat-btn">✍️ Short Stories</button>
+          <button class="cat-btn">👻 Horror</button>
+          <button class="cat-btn">💘 Romance</button>
+          <button class="cat-btn">⚔ Action</button>
+        </div>
+      </section>
+
+      <!-- STORIES FROM WRITING PAGE -->
+      <section class="story-list">
+        <h2>Your Stories</h2>
+        <div id="homeStoryList"></div>
+      </section>
+
+      <!-- GENRES -->
+      <section class="genre-section">
+        <h2>Genres</h2>
+        <div class="genre-block">
+          <h3>Horror</h3>
+          <p>A terrifying world of darkness and fear.</p>
+        </div>
+        <div class="genre-block">
+          <h3>Romance</h3>
+          <p>Love stories filled with emotions and beauty.</p>
+        </div>
+        <div class="genre-block">
+          <h3>Adventure</h3>
+          <p>Travel into unknown lands and fight destiny.</p>
+        </div>
+      </section>
+
+    </section>
+  </main>
+
+  <script src="home.js"></script>
+  <script src="../animations/animations.js"></script>
+</body>
+</html>

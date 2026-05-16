@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Read Stories — Shah's Writing</title>
+  <link rel="stylesheet" href="reading.css">
+  <link rel="stylesheet" href="../animations/animations.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- MENU BUTTON -->
+  <button id="menuBtn" aria-label="Open menu" aria-expanded="false">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-hidden="true">
+    <div class="sidebar-top">
+      <h2>Menu</h2>
+      <button id="closeBtn" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <nav class="nav-list" id="sidebarNav" role="navigation" aria-label="Main menu"></nav>
+    <div class="sidebar-footer">
+      <small>© <span id="year"></span> Shah's Writing</small>
+    </div>
+  </aside>
+
+  <div id="overlay" class="overlay" tabindex="-1"></div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <header class="page-header">
+      <h1>📖 All Stories</h1>
+      <p>All stories from the Writing page appear here. Click any card to read.</p>
+    </header>
+
+    <!-- SEARCH -->
+    <div class="read-search-bar">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="storySearch" placeholder="Search stories..." />
+    </div>
+
+    <!-- STORY LIST -->
+    <div id="story-list"></div>
+  </main>
+
+  <!-- ══════════ IN-PAGE READER MODAL ══════════ -->
+  <div id="readerModal" class="reader-modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="reader-panel">
+
+      <!-- Reading progress bar at top -->
+      <div class="read-progress-bar"><div id="readProgress"></div></div>
+
+      <!-- Reader header -->
+      <div class="reader-header">
+        <div class="reader-title-block">
+          <h2 id="readerTitle">Story Title</h2>
+          <div class="reader-meta-row">
+            <span id="readerCategory" class="reader-cat"></span>
+            <span id="readerStatus" class="reader-badge pending">Pending</span>
+          </div>
+        </div>
+        <div class="reader-controls">
+          <button id="fontDecrease" title="Smaller text">A-</button>
+          <button id="fontIncrease" title="Larger text">A+</button>
+          <button id="closeReader" title="Close reader" aria-label="Close">✕</button>
+        </div>
+      </div>
+
+      <!-- Scrollable story body -->
+      <div id="readerBody" class="reader-body"></div>
+
+    </div>
+  </div>
+
+  <script src="reading.js"></script>
+  <script src="../animations/animations.js"></script>
+</body>
+</html>

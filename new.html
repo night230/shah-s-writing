@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>WriteSpace — Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="../animations/animations.css">
+<style>
+:root{
+  --bg:#0c0c0e;
+  --bg2:#111115;
+  --bg3:#18181e;
+  --bg4:#1e1e26;
+  --border:rgba(255,255,255,0.06);
+  --border2:rgba(255,255,255,0.1);
+  --text:#e8e8f0;
+  --muted:#6e6e88;
+  --muted2:#9999b0;
+  --accent:#e05c3a;
+  --accent2:#c44d2e;
+  --accent-glow:rgba(224,92,58,0.18);
+  --green:#2ecc71;
+  --blue:#4a9eff;
+  --radius:10px;
+  --radius-lg:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}
+
+/* TOPBAR */
+.topbar{
+  display:flex;align-items:center;padding:0 24px;height:58px;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;gap:12px;
+}
+.brand{font-family:'Lora',serif;font-size:1.4rem;font-weight:600;color:var(--text);letter-spacing:-0.3px}
+.brand b{color:var(--accent)}
+.top-sub{font-size:0.78rem;color:var(--muted);margin-left:2px}
+.spacer{flex:1}
+.top-btns{display:flex;gap:8px;align-items:center}
+.btn{border:none;border-radius:var(--radius);padding:7px 14px;font-size:0.82rem;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:all 0.2s}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--muted2)}
+.btn-ghost:hover{background:var(--bg4);color:var(--text);border-color:var(--border2)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-read{background:transparent;border:1px solid var(--border2);color:var(--muted2);text-decoration:none;padding:7px 14px;border-radius:var(--radius);font-size:0.82rem;font-weight:500;transition:all 0.2s;display:flex;align-items:center;gap:6px}
+.btn-read:hover{background:var(--bg4);color:var(--text)}
+.user-dot{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#ff9870);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:600;color:#fff;cursor:pointer}
+
+/* LAYOUT */
+.layout{display:flex;height:calc(100vh - 58px);overflow:hidden}
+
+/* LEFT PANEL */
+.left-panel{
+  width:220px;flex-shrink:0;
+  background:var(--bg2);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;overflow-y:auto;
+}
+.left-section{padding:16px 14px 8px}
+.left-section-title{font-size:0.68rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer;transition:all 0.15s;color:var(--muted2);font-size:0.85rem;text-decoration:none}
+.nav-item:hover{background:var(--bg3);color:var(--text)}
+.nav-item.active{background:var(--accent-glow);color:var(--accent)}
+.nav-item i{width:16px;font-size:0.8rem;text-align:center}
+.count-badge{margin-left:auto;font-size:0.7rem;background:var(--bg4);color:var(--muted);padding:2px 6px;border-radius:20px}
+.left-divider{height:1px;background:var(--border);margin:8px 14px}
+
+/* EDITOR AREA */
+.editor-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.editor-top{
+  padding:14px 20px;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;gap:10px;align-items:center;
+}
+.post-title{
+  flex:1;background:transparent;border:none;color:var(--text);
+  font-family:'Lora',serif;font-size:1.1rem;font-weight:600;
+  outline:none;
+}
+.post-title::placeholder{color:var(--muted)}
+.editor-meta{
+  padding:10px 20px;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;gap:10px;align-items:center;
+}
+.meta-select{
+  background:var(--bg3);border:1px solid var(--border2);color:var(--muted2);
+  padding:5px 10px;border-radius:8px;font-size:0.8rem;font-family:'DM Sans',sans-serif;
+  cursor:pointer;outline:none;
+}
+.meta-select:focus{border-color:var(--accent)}
+.cover-btn{
+  display:flex;align-items:center;gap:6px;padding:5px 10px;
+  border-radius:8px;border:1px solid var(--border2);background:transparent;
+  color:var(--muted2);font-size:0.8rem;cursor:pointer;transition:all 0.15s;
+}
+.cover-btn:hover{background:var(--bg4);color:var(--text)}
+.cover-btn.has-cover{border-color:var(--green);color:var(--green)}
+.meta-sep{color:var(--muted);font-size:0.75rem}
+.word-count{font-size:0.78rem;color:var(--muted);margin-left:auto}
+#coverInput{display:none}
+.cover-preview-bar{
+  display:none;padding:8px 20px;background:var(--bg3);border-bottom:1px solid var(--border);
+  align-items:center;gap:10px;
+}
+.cover-preview-bar img{width:48px;height:32px;object-fit:cover;border-radius:4px;border:1px solid var(--border2)}
+.cover-preview-bar span{font-size:0.78rem;color:var(--muted)}
+.remove-cover{font-size:0.75rem;color:var(--accent);cursor:pointer;margin-left:auto}
+
+/* TOOLBAR */
+.toolbar{
+  padding:8px 20px;background:var(--bg2);border-bottom:1px solid var(--border);
+  display:flex;gap:4px;align-items:center;flex-wrap:wrap;
+}
+.t-btn{
+  background:transparent;border:none;color:var(--muted2);
+  padding:5px 8px;border-radius:6px;cursor:pointer;font-size:0.82rem;
+  transition:all 0.15s;font-family:'DM Sans',sans-serif;
+}
+.t-btn:hover{background:var(--bg4);color:var(--text)}
+.t-btn.active{background:var(--accent-glow);color:var(--accent)}
+.t-sep{width:1px;height:18px;background:var(--border);margin:0 4px}
+.t-btn b{font-weight:700}
+.t-btn i{font-size:0.8rem}
+
+/* EDITOR */
+.editor-wrap{flex:1;overflow-y:auto;padding:28px 40px;background:var(--bg)}
+#editor{
+  max-width:680px;margin:0 auto;min-height:400px;
+  font-family:'Lora',serif;font-size:1.05rem;line-height:1.85;color:var(--text);
+  outline:none;
+}
+#editor:empty::before{content:attr(placeholder);color:var(--muted);font-style:italic}
+#editor h1{font-size:1.8rem;font-weight:600;margin:1.2em 0 0.5em;color:#fff}
+#editor h2{font-size:1.4rem;font-weight:600;margin:1em 0 0.4em;color:#fff}
+#editor h3{font-size:1.1rem;font-weight:600;margin:0.8em 0 0.3em;color:#fff}
+#editor blockquote{border-left:3px solid var(--accent);padding:8px 16px;margin:1em 0;color:var(--muted2);font-style:italic}
+#editor a{color:var(--blue);text-decoration:underline}
+#editor img{max-width:100%;border-radius:8px;margin:1em 0;border:1px solid var(--border)}
+#editor ul,#editor ol{padding-left:1.5em;margin:0.5em 0}
+#editor li{margin-bottom:0.3em}
+#editor pre{background:var(--bg3);padding:12px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:0.85rem;overflow-x:auto;border:1px solid var(--border)}
+
+/* STATUS BAR */
+.status-bar{
+  padding:8px 20px;background:var(--bg2);border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:16px;font-size:0.75rem;color:var(--muted);
+}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);display:inline-block;margin-right:5px}
+.status-dot.saved{background:var(--green)}
+.status-dot.unsaved{background:var(--accent)}
+
+/* RIGHT PANEL */
+.right-panel{
+  width:260px;flex-shrink:0;
+  background:var(--bg2);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.right-header{
+  padding:14px 14px 10px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.right-title{font-size:0.8rem;font-weight:600;color:var(--text)}
+.search-wrap{padding:10px 14px;border-bottom:1px solid var(--border)}
+.search-input{
+  width:100%;background:var(--bg3);border:1px solid var(--border);
+  color:var(--text);padding:7px 10px;border-radius:8px;font-size:0.8rem;
+  font-family:'DM Sans',sans-serif;outline:none;
+}
+.search-input:focus{border-color:var(--border2)}
+.posts-wrap{flex:1;overflow-y:auto;padding:8px}
+.post-row{
+  padding:10px;border-radius:8px;cursor:pointer;
+  border:1px solid transparent;transition:all 0.15s;margin-bottom:4px;
+}
+.post-row:hover{background:var(--bg3);border-color:var(--border)}
+.post-row.active-post{background:var(--accent-glow);border-color:rgba(224,92,58,0.25)}
+.post-row-title{font-size:0.83rem;font-weight:500;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.post-row-meta{font-size:0.72rem;color:var(--muted);display:flex;align-items:center;gap:6px}
+.status-tag{
+  padding:1px 6px;border-radius:4px;font-size:0.65rem;font-weight:600;
+}
+.status-tag.published{background:rgba(46,204,113,0.15);color:var(--green)}
+.status-tag.draft{background:var(--bg4);color:var(--muted)}
+.post-actions{display:none;gap:4px;margin-top:6px}
+.post-row:hover .post-actions{display:flex}
+.post-act-btn{
+  padding:3px 8px;font-size:0.7rem;border-radius:5px;
+  border:1px solid var(--border);background:transparent;
+  color:var(--muted2);cursor:pointer;transition:all 0.15s;
+}
+.post-act-btn:hover{background:var(--bg4);color:var(--text)}
+.post-act-btn.del:hover{border-color:var(--accent);color:var(--accent)}
+.empty-state{text-align:center;padding:24px 16px;color:var(--muted);font-size:0.82rem}
+.empty-state i{font-size:1.5rem;margin-bottom:8px;display:block}
+
+/* MODAL */
+.modal-back{
+  position:fixed;inset:0;background:rgba(0,0,0,0.65);
+  backdrop-filter:blur(6px);z-index:500;
+  display:none;align-items:center;justify-content:center;
+}
+.modal-back.open{display:flex}
+.modal{
+  background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-lg);
+  padding:24px;width:380px;box-shadow:0 24px 60px rgba(0,0,0,0.5);
+}
+.modal h3{font-size:1rem;font-weight:600;margin-bottom:16px;color:var(--text)}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:0.75rem;color:var(--muted);margin-bottom:5px}
+.field input,.field select{
+  width:100%;background:var(--bg);border:1px solid var(--border2);
+  color:var(--text);padding:8px 12px;border-radius:8px;
+  font-size:0.85rem;font-family:'DM Sans',sans-serif;outline:none;
+}
+.field input:focus,.field select:focus{border-color:var(--accent)}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.btn-close-modal{background:transparent;border:none;color:var(--muted);font-size:1.2rem;cursor:pointer;float:right}
+
+/* IMAGE INSERT MODAL */
+.img-tabs{display:flex;gap:8px;margin-bottom:12px}
+.img-tab{
+  padding:5px 12px;border-radius:6px;border:1px solid var(--border);
+  background:transparent;color:var(--muted2);font-size:0.8rem;cursor:pointer;
+}
+.img-tab.active{background:var(--accent-glow);border-color:var(--accent);color:var(--accent)}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border2)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .left-panel{display:none}
+  .right-panel{width:220px}
+  .editor-wrap{padding:20px}
+}
+@media(max-width:640px){
+  .right-panel{display:none}
+  .editor-wrap{padding:16px}
+  #editor{font-size:0.95rem}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="brand">Write<b>Space</b></div>
+  <div class="top-sub">Creative Studio</div>
+  <div class="spacer"></div>
+  <div class="top-btns">
+    <a href="reading.html" class="btn-read"><i class="fa fa-book-open"></i> Reading Page</a>
+    <div id="topUserArea"></div>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- LEFT PANEL -->
+  <nav class="left-panel">
+    <div class="left-section">
+      <div class="left-section-title">Create</div>
+      <a class="nav-item active" onclick="newPost()"><i class="fa fa-plus"></i> New Post</a>
+      <a class="nav-item" onclick="filterPosts('all')"><i class="fa fa-layer-group"></i> All Posts <span class="count-badge" id="cnt-all">0</span></a>
+    </div>
+    <div class="left-divider"></div>
+    <div class="left-section">
+      <div class="left-section-title">My Writings</div>
+      <a class="nav-item" onclick="filterPosts('draft')"><i class="fa fa-pencil"></i> Drafts <span class="count-badge" id="cnt-draft">0</span></a>
+      <a class="nav-item" onclick="filterPosts('published')"><i class="fa fa-globe"></i> Published <span class="count-badge" id="cnt-pub">0</span></a>
+    </div>
+    <div class="left-divider"></div>
+    <div class="left-section">
+      <div class="left-section-title">Account</div>
+      <a class="nav-item" onclick="showProfile()"><i class="fa fa-user"></i> Profile</a>
+      <a class="nav-item" href="reading.html"><i class="fa fa-book-open"></i> Reading Page</a>
+    </div>
+  </nav>
+
+  <!-- EDITOR -->
+  <section class="editor-area">
+    <div class="editor-top">
+      <input id="post-title" class="post-title" placeholder="Untitled Story…" autocomplete="off"/>
+      <button class="btn btn-ghost" id="save-draft"><i class="fa fa-floppy-disk"></i> Draft</button>
+      <button class="btn btn-primary" id="publish-post"><i class="fa fa-globe"></i> Publish</button>
+    </div>
+
+    <div class="editor-meta">
+      <select class="meta-select" id="post-category">
+        <option value="story">📖 Story</option>
+        <option value="novel">📚 Novel</option>
+        <option value="book">📕 Book</option>
+        <option value="letter">✉️ Letter</option>
+        <option value="poem">🪶 Poem</option>
+      </select>
+      <span class="meta-sep">|</span>
+      <button class="cover-btn" id="coverBtn" onclick="document.getElementById('coverInput').click()">
+        <i class="fa fa-image"></i> <span id="coverBtnText">Add Cover</span>
+      </button>
+      <input type="file" id="coverInput" accept="image/*"/>
+      <span class="meta-sep">|</span>
+      <span class="word-count" id="wc-display">0 words · ~0 min read</span>
+    </div>
+
+    <!-- Cover preview bar -->
+    <div class="cover-preview-bar" id="coverBar">
+      <img id="coverThumb" src="" alt="cover"/>
+      <span id="coverName">cover.jpg</span>
+      <span class="remove-cover" onclick="removeCover()"><i class="fa fa-xmark"></i> Remove</span>
+    </div>
+
+    <div class="toolbar" id="toolbar">
+      <button class="t-btn" data-cmd="bold"><b>B</b></button>
+      <button class="t-btn" data-cmd="italic"><i>I</i></button>
+      <button class="t-btn" data-cmd="underline" style="text-decoration:underline">U</button>
+      <button class="t-btn" data-cmd="strikeThrough" style="text-decoration:line-through">S</button>
+      <div class="t-sep"></div>
+      <button class="t-btn" data-cmd="h1">H1</button>
+      <button class="t-btn" data-cmd="h2">H2</button>
+      <button class="t-btn" data-cmd="h3">H3</button>
+      <div class="t-sep"></div>
+      <button class="t-btn" data-cmd="ul"><i class="fa fa-list-ul"></i></button>
+      <button class="t-btn" data-cmd="ol"><i class="fa fa-list-ol"></i></button>
+      <button class="t-btn" data-cmd="blockquote"><i class="fa fa-quote-left"></i></button>
+      <div class="t-sep"></div>
+      <button class="t-btn" id="insert-link"><i class="fa fa-link"></i></button>
+      <button class="t-btn" id="insert-image-btn"><i class="fa fa-image"></i> Img</button>
+      <div class="t-sep"></div>
+      <button class="t-btn" data-cmd="undo"><i class="fa fa-rotate-left"></i></button>
+      <button class="t-btn" data-cmd="redo"><i class="fa fa-rotate-right"></i></button>
+      <button class="t-btn" id="clear-format"><i class="fa fa-text-slash"></i></button>
+      <div class="t-sep"></div>
+      <button class="t-btn" id="fullscreen-btn" title="Focus Mode"><i class="fa fa-expand"></i></button>
+    </div>
+
+    <div class="editor-wrap">
+      <div id="editor" contenteditable="true" spellcheck="true" placeholder="Begin your story here… every great tale starts with a single word."></div>
+    </div>
+
+    <div class="status-bar">
+      <span><span class="status-dot" id="status-dot"></span><span id="status-text">Ready</span></span>
+      <span id="edit-indicator" style="display:none;color:var(--muted)">Editing: <span id="editing-title" style="color:var(--muted2)"></span></span>
+      <span style="margin-left:auto;color:var(--muted)">Ctrl+S to save</span>
+    </div>
+  </section>
+
+  <!-- RIGHT PANEL -->
+  <aside class="right-panel">
+    <div class="right-header">
+      <span class="right-title"><i class="fa fa-layer-group" style="margin-right:6px;color:var(--muted)"></i>My Stories</span>
+      <span class="count-badge" id="posts-count">0</span>
+    </div>
+    <div class="search-wrap">
+      <input class="search-input" id="search-posts" placeholder="Search stories…"/>
+    </div>
+    <div class="posts-wrap" id="posts-list"></div>
+  </aside>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="modal-back" id="auth-modal">
+  <div class="modal">
+    <button class="btn-close-modal" onclick="closeAuthModal()">×</button>
+    <h3><i class="fa fa-user-pen" style="color:var(--accent);margin-right:8px"></i>Welcome to WriteSpace</h3>
+    <div class="field"><label>Your Name (optional)</label><input id="a-name" placeholder="e.g. Ramesh"/></div>
+    <div class="field"><label>Email</label><input id="a-email" type="email" placeholder="you@example.com"/></div>
+    <div class="field"><label>Password (min 4 chars)</label><input id="a-pass" type="password" placeholder="••••••"/></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeAuthModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="authSubmit()">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMAGE INSERT MODAL -->
+<div class="modal-back" id="img-modal">
+  <div class="modal">
+    <button class="btn-close-modal" onclick="closeImgModal()">×</button>
+    <h3><i class="fa fa-image" style="color:var(--accent);margin-right:8px"></i>Insert Image</h3>
+    <div class="img-tabs">
+      <button class="img-tab active" onclick="setImgTab('url',this)">URL</button>
+      <button class="img-tab" onclick="setImgTab('upload',this)">Upload</button>
+    </div>
+    <div id="img-url-section">
+      <div class="field"><label>Image URL</label><input id="img-url-inp" placeholder="https://…"/></div>
+    </div>
+    <div id="img-upload-section" style="display:none">
+      <div class="field"><label>Upload Image</label><input type="file" id="img-file-inp" accept="image/*"/></div>
+    </div>
+    <div class="field"><label>Alt text (optional)</label><input id="img-alt-inp" placeholder="Description…"/></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeImgModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="insertImageFinal()">Insert</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const LS_USER = 'ws_user_v2';
+const LS_POSTS = 'ws_posts_v2';
+let state = { user: null, posts: [] };
+let coverDataURL = '';
+let savedRange = null;
+
+function uid(p='id'){ return p+'_'+Math.random().toString(36).slice(2,9); }
+function escH(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function loadState(){
+  try{ state.user = JSON.parse(localStorage.getItem(LS_USER)||'null'); }catch(e){ state.user=null; }
+  try{ state.posts = JSON.parse(localStorage.getItem(LS_POSTS)||'[]'); }catch(e){ state.posts=[]; }
+}
+function saveState(){
+  if(state.user) localStorage.setItem(LS_USER, JSON.stringify(state.user));
+  localStorage.setItem(LS_POSTS, JSON.stringify(state.posts));
+}
+loadState();
+
+// TOP USER AREA
+function renderTopUser(){
+  const el = document.getElementById('topUserArea');
+  if(state.user){
+    const initials = (state.user.name||state.user.email||'U')[0].toUpperCase();
+    el.innerHTML = `<div style="display:flex;gap:8px;align-items:center">
+      <div class="user-dot" onclick="showProfile()">${initials}</div>
+      <button class="btn btn-ghost" onclick="logout()" style="padding:6px 10px;font-size:0.78rem">Logout</button>
+    </div>`;
+  } else {
+    el.innerHTML = `<button class="btn btn-primary" onclick="openAuthModal()">Sign In</button>`;
+  }
+}
+
+function openAuthModal(){ document.getElementById('auth-modal').classList.add('open'); }
+function closeAuthModal(){ document.getElementById('auth-modal').classList.remove('open'); }
+
+function authSubmit(){
+  const name = document.getElementById('a-name').value.trim();
+  const email = document.getElementById('a-email').value.trim();
+  const pass = document.getElementById('a-pass').value;
+  if(!email || pass.length < 4){ alert('Valid email and password (min 4 chars) required'); return; }
+  state.user = { id: uid('u'), name: name||null, email, createdAt: Date.now() };
+  saveState();
+  closeAuthModal();
+  renderTopUser();
+  renderPosts();
+}
+
+function logout(){
+  state.user = null;
+  localStorage.removeItem(LS_USER);
+  renderTopUser();
+  renderPosts();
+}
+
+function showProfile(){
+  if(!state.user){ openAuthModal(); return; }
+  const n = prompt('Update name:', state.user.name||'');
+  if(n !== null){ state.user.name = n.trim()||state.user.name; saveState(); renderTopUser(); }
+}
+
+// COVER IMAGE
+document.getElementById('coverInput').addEventListener('change', function(e){
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    coverDataURL = r.result;
+    document.getElementById('coverThumb').src = coverDataURL;
+    document.getElementById('coverName').textContent = f.name;
+    document.getElementById('coverBar').style.display = 'flex';
+    document.getElementById('coverBtn').classList.add('has-cover');
+    document.getElementById('coverBtnText').textContent = 'Cover Set ✓';
+  };
+  r.readAsDataURL(f);
+});
+
+function removeCover(){
+  coverDataURL = '';
+  document.getElementById('coverBar').style.display = 'none';
+  document.getElementById('coverBtn').classList.remove('has-cover');
+  document.getElementById('coverBtnText').textContent = 'Add Cover';
+  document.getElementById('coverInput').value = '';
+}
+
+// WORD COUNT
+const editorEl = document.getElementById('editor');
+function updateWordCount(){
+  const text = editorEl.innerText.trim();
+  const words = text ? text.split(/\s+/).filter(w=>w).length : 0;
+  const mins = Math.ceil(words/200);
+  document.getElementById('wc-display').textContent = `${words.toLocaleString()} words · ~${mins} min read`;
+}
+editorEl.addEventListener('input', () => { updateWordCount(); setStatus('unsaved'); });
+
+// STATUS
+let saveTimer = null;
+function setStatus(s){
+  const dot = document.getElementById('status-dot');
+  const txt = document.getElementById('status-text');
+  if(s==='saved'){ dot.className='status-dot saved'; txt.textContent='Saved'; }
+  else if(s==='unsaved'){ dot.className='status-dot unsaved'; txt.textContent='Unsaved changes'; }
+  else { dot.className='status-dot'; txt.textContent='Ready'; }
+}
+
+// TOOLBAR
+document.getElementById('toolbar').addEventListener('click', e => {
+  const btn = e.target.closest('[data-cmd]'); if(!btn) return;
+  const cmd = btn.dataset.cmd;
+  if(cmd==='h1') document.execCommand('formatBlock',false,'<h1>');
+  else if(cmd==='h2') document.execCommand('formatBlock',false,'<h2>');
+  else if(cmd==='h3') document.execCommand('formatBlock',false,'<h3>');
+  else if(cmd==='ul') document.execCommand('insertUnorderedList');
+  else if(cmd==='ol') document.execCommand('insertOrderedList');
+  else if(cmd==='blockquote') document.execCommand('formatBlock',false,'<blockquote>');
+  else document.execCommand(cmd, false, null);
+  editorEl.focus();
+});
+
+document.getElementById('insert-link').addEventListener('click',()=>{
+  const url = prompt('Enter URL:'); if(!url) return;
+  document.execCommand('createLink',false,url);
+  editorEl.focus();
+});
+
+document.getElementById('clear-format').addEventListener('click',()=>{
+  document.execCommand('removeFormat');
+  editorEl.focus();
+});
+
+let focusMode = false;
+document.getElementById('fullscreen-btn').addEventListener('click',()=>{
+  focusMode = !focusMode;
+  document.querySelector('.left-panel').style.display = focusMode ? 'none' : '';
+  document.querySelector('.right-panel').style.display = focusMode ? 'none' : '';
+  document.getElementById('fullscreen-btn').innerHTML = focusMode ? '<i class="fa fa-compress"></i>' : '<i class="fa fa-expand"></i>';
+});
+
+// IMAGE INSERT
+document.getElementById('insert-image-btn').addEventListener('click',()=>{
+  savedRange = saveSelection();
+  document.getElementById('img-modal').classList.add('open');
+});
+function closeImgModal(){ document.getElementById('img-modal').classList.remove('open'); }
+function setImgTab(t,btn){
+  document.querySelectorAll('.img-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('img-url-section').style.display = t==='url' ? 'block' : 'none';
+  document.getElementById('img-upload-section').style.display = t==='upload' ? 'block' : 'none';
+}
+function saveSelection(){
+  const sel = window.getSelection();
+  if(sel.rangeCount>0) return sel.getRangeAt(0);
+  return null;
+}
+function restoreSelection(range){
+  if(!range) return;
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+function insertImageFinal(){
+  const urlTab = document.querySelector('.img-tab.active').textContent.trim() === 'URL';
+  const alt = document.getElementById('img-alt-inp').value||'image';
+  if(urlTab){
+    const url = document.getElementById('img-url-inp').value.trim();
+    if(!url){ alert('Enter image URL'); return; }
+    restoreSelection(savedRange);
+    document.execCommand('insertHTML',false,`<img src="${escH(url)}" alt="${escH(alt)}" style="max-width:100%;border-radius:8px;margin:8px 0"/>`);
+    closeImgModal();
+  } else {
+    const f = document.getElementById('img-file-inp').files[0];
+    if(!f){ alert('Select an image file'); return; }
+    const r = new FileReader();
+    r.onload = () => {
+      restoreSelection(savedRange);
+      document.execCommand('insertHTML',false,`<img src="${r.result}" alt="${escH(alt)}" style="max-width:100%;border-radius:8px;margin:8px 0"/>`);
+      closeImgModal();
+    };
+    r.readAsDataURL(f);
+  }
+}
+
+// POSTS
+function newPost(){
+  document.getElementById('post-title').value='';
+  editorEl.innerHTML='';
+  editorEl.dataset.editing='';
+  document.getElementById('edit-indicator').style.display='none';
+  removeCover();
+  updateWordCount();
+  setStatus('ready');
+  document.getElementById('post-title').focus();
+}
+
+function createPost({title,html,status,cover,category}={}){
+  if(!state.user){ openAuthModal(); return null; }
+  const p = {
+    id: uid('p'), authorId: state.user.id,
+    title: title||'Untitled', html: html||'',
+    status, cover: cover||'', category: category||'story',
+    createdAt: Date.now(), updatedAt: Date.now()
+  };
+  state.posts.unshift(p);
+  saveState(); renderPosts(); return p;
+}
+
+function updatePost(id, upd){
+  const i = state.posts.findIndex(x=>x.id===id);
+  if(i===-1) return;
+  state.posts[i] = {...state.posts[i],...upd, updatedAt:Date.now()};
+  saveState(); renderPosts();
+}
+
+function deletePost(id){
+  if(!confirm('Delete this post permanently?')) return;
+  state.posts = state.posts.filter(x=>x.id!==id);
+  saveState(); renderPosts();
+  if(editorEl.dataset.editing===id) newPost();
+}
+
+function openPostToEditor(id){
+  const p = state.posts.find(x=>x.id===id); if(!p) return;
+  document.getElementById('post-title').value = p.title;
+  editorEl.innerHTML = p.html;
+  editorEl.dataset.editing = p.id;
+  document.getElementById('post-category').value = p.category||'story';
+  if(p.cover){
+    coverDataURL = p.cover;
+    document.getElementById('coverThumb').src = p.cover;
+    document.getElementById('coverName').textContent = 'Cover Image';
+    document.getElementById('coverBar').style.display='flex';
+    document.getElementById('coverBtn').classList.add('has-cover');
+    document.getElementById('coverBtnText').textContent='Cover Set ✓';
+  } else { removeCover(); }
+  document.getElementById('edit-indicator').style.display='inline';
+  document.getElementById('editing-title').textContent = p.title;
+  updateWordCount();
+  setStatus('saved');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+document.getElementById('save-draft').addEventListener('click',()=>{
+  if(!state.user){ openAuthModal(); return; }
+  const title = document.getElementById('post-title').value.trim()||'Untitled';
+  const html = editorEl.innerHTML.trim();
+  const category = document.getElementById('post-category').value;
+  const editId = editorEl.dataset.editing;
+  if(editId){ updatePost(editId,{title,html,status:'draft',cover:coverDataURL,category}); }
+  else { const p=createPost({title,html,status:'draft',cover:coverDataURL,category}); if(p) editorEl.dataset.editing=p.id; }
+  setStatus('saved');
+});
+
+document.getElementById('publish-post').addEventListener('click',()=>{
+  if(!state.user){ openAuthModal(); return; }
+  const title = document.getElementById('post-title').value.trim()||'Untitled';
+  const html = editorEl.innerHTML.trim();
+  const category = document.getElementById('post-category').value;
+  const editId = editorEl.dataset.editing;
+  if(!html){ alert('Write something first!'); return; }
+  if(editId){ updatePost(editId,{title,html,status:'published',cover:coverDataURL,category}); }
+  else { const p=createPost({title,html,status:'published',cover:coverDataURL,category}); if(p) editorEl.dataset.editing=p.id; }
+  setStatus('saved');
+  const pub = document.createElement('div');
+  pub.style.cssText='position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#2ecc71;color:#fff;padding:10px 24px;border-radius:30px;font-size:0.85rem;font-weight:500;z-index:9999;box-shadow:0 4px 20px rgba(46,204,113,0.4)';
+  pub.textContent='✓ Published! Now visible on Reading Page';
+  document.body.appendChild(pub);
+  setTimeout(()=>pub.remove(),3000);
+});
+
+let currentFilter = 'all';
+function filterPosts(f){ currentFilter=f; renderPosts(); }
+
+function renderPosts(q=''){
+  const list = document.getElementById('posts-list');
+  list.innerHTML='';
+  const userPosts = state.user ? state.posts.filter(p=>p.authorId===state.user.id) : [];
+  let shown = userPosts;
+  if(currentFilter==='draft') shown=userPosts.filter(p=>p.status==='draft');
+  if(currentFilter==='published') shown=userPosts.filter(p=>p.status==='published');
+  const search = document.getElementById('search-posts').value.toLowerCase();
+  if(search) shown=shown.filter(p=>p.title.toLowerCase().includes(search)||(p.html||'').toLowerCase().includes(search));
+  document.getElementById('posts-count').textContent = shown.length;
+  document.getElementById('cnt-all').textContent = userPosts.length;
+  document.getElementById('cnt-draft').textContent = userPosts.filter(p=>p.status==='draft').length;
+  document.getElementById('cnt-pub').textContent = userPosts.filter(p=>p.status==='published').length;
+  if(shown.length===0){
+    list.innerHTML=`<div class="empty-state"><i class="fa fa-feather"></i>No stories yet.<br>Start writing your first one!</div>`;
+    return;
+  }
+  shown.forEach(p=>{
+    const div = document.createElement('div');
+    div.className='post-row'+(editorEl.dataset.editing===p.id?' active-post':'');
+    const cat = {story:'📖',novel:'📚',book:'📕',letter:'✉️',poem:'🪶'}[p.category]||'📖';
+    div.innerHTML=`
+      <div class="post-row-title">${cat} ${escH(p.title)}</div>
+      <div class="post-row-meta">
+        <span class="status-tag ${p.status}">${p.status==='published'?'Published':'Draft'}</span>
+        <span>${new Date(p.updatedAt).toLocaleDateString()}</span>
+      </div>
+      <div class="post-actions">
+        <button class="post-act-btn" onclick="openPostToEditor('${p.id}')">Open</button>
+        <button class="post-act-btn" onclick="togglePublish('${p.id}')">${p.status==='published'?'Unpublish':'Publish'}</button>
+        <button class="post-act-btn del" onclick="deletePost('${p.id}')">Delete</button>
+      </div>`;
+    div.addEventListener('click',e=>{ if(!e.target.closest('button')) openPostToEditor(p.id); });
+    list.appendChild(div);
+  });
+}
+
+function togglePublish(id){
+  const p=state.posts.find(x=>x.id===id); if(!p) return;
+  updatePost(id,{status:p.status==='published'?'draft':'published'});
+}
+
+document.getElementById('search-posts').addEventListener('input',()=>renderPosts());
+window.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){ e.preventDefault(); document.getElementById('save-draft').click(); }
+});
+
+renderTopUser();
+renderPosts();
+updateWordCount();
+setStatus('ready');
+</script>
+<script src="../animations/animations.js"></script>
+</body>
+</html>

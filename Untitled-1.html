@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en" data-dh-mode="god">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Divine Horror Theme — God × Devil</title>
+
+<!-- ══ DIVINE HORROR THEME — just these 2 lines on any page ══ -->
+<link rel="stylesheet" href="../animations/animations.css">
+<!-- (JS loaded at bottom) -->
+
+<style>
+  /* ── Demo page base — your existing site styles ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cinzel', Georgia, serif;
+    background: var(--dh-bg, #05101a);
+    color: var(--dh-text, #e1f5fe);
+    min-height: 100vh;
+    transition: background 0.8s ease, color 0.5s ease;
+    overflow-x: hidden;
+    position: relative;
+    z-index: 3;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    z-index: 3;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--dh-primary);
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+  }
+
+  .hero-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2.5rem, 8vw, 6rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-title .god-half {
+    display: inline-block;
+    background: linear-gradient(135deg, #81d4fa, #4fc3f7, #fff9c4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(79,195,247,0.5));
+  }
+
+  .hero-title .devil-half {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff1744, #ff6d00, #b71c1c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 20px rgba(255,23,68,0.5));
+  }
+
+  .hero-sub {
+    font-family: 'IM Fell English SC', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: var(--dh-primary);
+    opacity: 0.7;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.8;
+    font-style: italic;
+    transition: color 0.8s ease;
+  }
+
+  .hero-divider {
+    width: 180px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--dh-primary), transparent);
+    margin: 2rem auto;
+  }
+
+  .hero-badge-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+
+  /* ── SECTION ── */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+    position: relative;
+    z-index: 3;
+  }
+
+  .section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    color: var(--dh-primary);
+    text-align: center;
+    margin-bottom: 0.5rem;
+    transition: color 0.8s ease;
+    filter: drop-shadow(0 0 12px var(--dh-glow));
+  }
+
+  .section-sub {
+    text-align: center;
+    font-family: 'IM Fell English SC', serif;
+    font-style: italic;
+    color: var(--dh-primary);
+    opacity: 0.5;
+    font-size: 14px;
+    margin-bottom: 3rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── GRID ── */
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  /* ── SKELETON DEMO ── */
+  .skeleton-demo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skeleton-card {
+    background: var(--dh-surface);
+    border: 1px solid var(--dh-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: background 0.8s, border-color 0.8s;
+  }
+
+  .skeleton-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+  }
+
+  .skel-line { border-radius: 6px; margin-bottom: 10px; }
+
+  /* ── FEATURES LIST ── */
+  .feature-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1.2rem 1.5rem;
+    background: var(--dh-surface);
+    border: 1px solid var(--dh-border);
+    border-radius: 12px;
+    transition: all 0.5s ease;
+  }
+
+  .feature-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+    filter: drop-shadow(0 0 6px var(--dh-glow));
+  }
+
+  .feature-title {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--dh-primary);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    transition: color 0.8s;
+  }
+
+  .feature-desc {
+    font-family: Georgia, serif;
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.6;
+  }
+
+  /* ── MODE SPLIT VISUAL ── */
+  .mode-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--dh-border);
+    margin: 3rem 0;
+  }
+
+  .mode-god {
+    background: rgba(4, 20, 40, 0.95);
+    border-right: 1px solid rgba(79,195,247,0.2);
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+
+  .mode-devil {
+    background: rgba(20, 0, 0, 0.95);
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+
+  .mode-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .mode-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .mode-god .mode-name { color: #4fc3f7; text-shadow: 0 0 20px rgba(79,195,247,0.6); }
+  .mode-devil .mode-name { color: #ff1744; text-shadow: 0 0 20px rgba(255,23,68,0.6); }
+
+  .mode-desc {
+    font-family: Georgia, serif;
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.6;
+  }
+
+  .mode-god .mode-desc { color: #81d4fa; }
+  .mode-devil .mode-desc { color: #ffcdd2; }
+
+  .mode-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 1.2rem;
+  }
+
+  .mode-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  .mode-god .mode-tag {
+    background: rgba(79,195,247,0.12);
+    border: 1px solid rgba(79,195,247,0.3);
+    color: #4fc3f7;
+  }
+
+  .mode-devil .mode-tag {
+    background: rgba(255,23,68,0.12);
+    border: 1px solid rgba(255,23,68,0.3);
+    color: #ff1744;
+  }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid var(--dh-border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+    position: relative;
+    transition: border-color 0.8s;
+  }
+
+  .code-block::before {
+    content: 'HTML';
+    position: absolute;
+    top: 10px; right: 14px;
+    font-family: 'Cinzel', serif;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--dh-primary);
+    opacity: 0.5;
+  }
+
+  .code-block .c-tag   { color: var(--dh-primary); }
+  .code-block .c-attr  { color: #ffd54f; }
+  .code-block .c-val   { color: #a5d6a7; }
+  .code-block .c-com   { color: #546e7a; font-style: italic; }
+
+  /* ── USAGE DEMO ── */
+  .usage-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media(max-width:700px) {
+    .usage-row { grid-template-columns: 1fr; }
+    .mode-split { grid-template-columns: 1fr; }
+    .mode-god { border-right: none; border-bottom: 1px solid rgba(79,195,247,0.2); }
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem 4rem;
+    position: relative;
+    z-index: 3;
+    border-top: 1px solid var(--dh-border);
+    transition: border-color 0.8s;
+  }
+
+  .footer-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.2rem;
+    color: var(--dh-primary);
+    margin-bottom: 0.5rem;
+    transition: color 0.8s;
+    filter: drop-shadow(0 0 10px var(--dh-glow));
+  }
+
+  .footer-sub {
+    font-family: Georgia, serif;
+    font-size: 12px;
+    opacity: 0.4;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── GLITCH TEXT DEMO ── */
+  .glitch-demo {
+    text-align: center;
+    padding: 2rem;
+    background: var(--dh-surface);
+    border: 1px solid var(--dh-border);
+    border-radius: 12px;
+    transition: all 0.8s;
+  }
+
+  .glitch-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--dh-primary);
+    transition: color 0.8s;
+    filter: drop-shadow(0 0 15px var(--dh-glow));
+  }
+
+  /* ── BUTTON DEMO ── */
+  .btn-demo {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .dh-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    border-radius: 6px;
+    border: 1px solid var(--dh-primary);
+    background: transparent;
+    color: var(--dh-primary);
+    transition: all 0.35s var(--dh-spring, cubic-bezier(0.34,1.56,0.64,1));
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dh-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--dh-primary);
+    transform: translateX(-100%);
+    transition: transform 0.35s ease;
+    z-index: 0;
+    opacity: 0.15;
+  }
+
+  .dh-btn:hover::before { transform: translateX(0); }
+
+  .dh-btn:hover {
+    box-shadow: 0 0 20px var(--dh-glow), 0 0 60px var(--dh-glow-soft);
+    transform: translateY(-2px);
+  }
+
+  .dh-btn span { position: relative; z-index: 1; }
+
+  /* ── HORROR QUOTE ── */
+  .horror-quote {
+    text-align: center;
+    padding: 3rem 2rem;
+    position: relative;
+    z-index: 3;
+  }
+
+  .horror-quote blockquote {
+    font-family: 'IM Fell English SC', serif;
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    font-style: italic;
+    color: var(--dh-primary);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.9;
+    opacity: 0.75;
+    transition: color 0.8s;
+  }
+
+  .horror-quote cite {
+    display: block;
+    margin-top: 1rem;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-style: normal;
+    font-family: 'Cinzel', serif;
+    opacity: 0.4;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══════════════════════════════════════════════════ -->
+<section class="hero">
+  <p class="hero-eyebrow dh-badge">✦ Universal Horror Theme ✦</p>
+
+  <h1 class="hero-title">
+    <span class="god-half">DIVINE</span>
+    <span style="color:var(--dh-primary);opacity:0.4;"> × </span>
+    <span class="devil-half">INFERNAL</span>
+  </h1>
+
+  <div class="hero-divider"></div>
+
+  <p class="hero-sub dh-glitch" data-text="Where Heaven bleeds into Hell, and Hell yearns for the Light.">
+    Where Heaven bleeds into Hell, and Hell yearns for the Light.
+  </p>
+
+  <div class="hero-badge-row">
+    <span class="dh-badge">☀ God Mode</span>
+    <span class="dh-badge">☾ Devil Mode</span>
+    <span class="dh-badge">⚡ Pure CSS+JS</span>
+    <span class="dh-badge">∞ Universal</span>
+  </div>
+
+  <div class="btn-demo" style="margin-top:2.5rem">
+    <button class="dh-btn" onclick="DivinHorror.toggle()"><span>⚡ Toggle Mode</span></button>
+    <button class="dh-btn"><span>Read the Prophecy</span></button>
+    <button class="dh-btn"><span>Enter the Void</span></button>
+  </div>
+</section>
+
+<!-- ══ DIVIDER ════════════════════════════════════════════════ -->
+<div class="dh-divider" style="max-width:600px;margin:0 auto;"></div>
+
+<!-- ══ MODE SPLIT ═════════════════════════════════════════════ -->
+<div class="section" style="padding-top:3rem">
+  <h2 class="section-title">Dual Consciousness</h2>
+  <p class="section-sub">Two forces. One soul. Infinite horror.</p>
+
+  <div class="mode-split">
+    <div class="mode-god">
+      <span class="mode-icon dh-float">☀</span>
+      <div class="mode-name">God Mode</div>
+      <p class="mode-desc">Divine blue light cascades from above. Calm, eternal, omniscient. The celestial aura wraps all things in sacred luminescence.</p>
+      <div class="mode-tags">
+        <span class="mode-tag">Blue Glow</span>
+        <span class="mode-tag">Smooth Light</span>
+        <span class="mode-tag">Calm Energy</span>
+        <span class="mode-tag">Holy Rays</span>
+      </div>
+    </div>
+    <div class="mode-devil">
+      <span class="mode-icon dh-float" style="animation-delay:-2s">☾</span>
+      <div class="mode-name">Devil Mode</div>
+      <p class="mode-desc">Crimson fire consumes the edges. Glitch. Chaos. The demonic energy tears through reality, leaving scars of red upon the dark.</p>
+      <div class="mode-tags">
+        <span class="mode-tag">Red Glow</span>
+        <span class="mode-tag">Glitch FX</span>
+        <span class="mode-tag">Dark Horror</span>
+        <span class="mode-tag">Fire Embers</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FEATURES ═══════════════════════════════════════════════ -->
+<div class="section" style="padding-top:2rem">
+  <h2 class="section-title">Sacred Features</h2>
+  <p class="section-sub">Forged in the furnace between heaven and hell</p>
+
+  <div class="grid-3">
+    <div class="feature-item dh-card">
+      <span class="feature-icon">👁</span>
+      <div>
+        <div class="feature-title">Cursor Aura</div>
+        <p class="feature-desc">Custom cursor with glowing aura that follows your mouse, expanding on hover. Blue in God Mode, red in Devil Mode.</p>
+      </div>
+    </div>
+
+    <div class="feature-item dh-card">
+      <span class="feature-icon">💀</span>
+      <div>
+        <div class="feature-title">Skeleton Loading</div>
+        <p class="feature-desc">Cinematic shimmer loading effect. Add <code style="opacity:0.7;font-size:11px">.dh-skeleton</code> to any element to activate the spectral loading state.</p>
+      </div>
+    </div>
+
+    <div class="feature-item dh-card">
+      <span class="feature-icon">⚡</span>
+      <div>
+        <div class="feature-title">Glitch Effect</div>
+        <p class="feature-desc">Devil Mode exclusive. RGB-split chromatic glitch animation on any text with <code style="opacity:0.7;font-size:11px">.dh-glitch</code>.</p>
+      </div>
+    </div>
+
+    <div class="feature-item dh-card">
+      <span class="feature-icon">🌊</span>
+      <div>
+        <div class="feature-title">Scroll Reveal</div>
+        <p class="feature-desc">Elements rise from the void as you scroll. Auto-applied to headings and paragraphs. Staggered with divine precision.</p>
+      </div>
+    </div>
+
+    <div class="feature-item dh-card">
+      <span class="feature-icon">✨</span>
+      <div>
+        <div class="feature-title">Ambient Particles</div>
+        <p class="feature-desc">Floating light orbs in God Mode. Rising fire embers in Devil Mode. Atmospheric depth without performance cost.</p>
+      </div>
+    </div>
+
+    <div class="feature-item dh-card">
+      <span class="feature-icon">🔮</span>
+      <div>
+        <div class="feature-title">Mode Persistence</div>
+        <p class="feature-desc">Chosen mode is remembered via localStorage across sessions. The darkness you embrace never forgets you.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SKELETON DEMO ══════════════════════════════════════════ -->
+<div class="section" style="padding-top:2rem">
+  <h2 class="section-title">Skeleton Loading</h2>
+  <p class="section-sub">The specter of content yet to arrive</p>
+
+  <div class="skeleton-demo-grid">
+    <!-- LIVE SKELETON CARDS -->
+    <div class="skeleton-card">
+      <div class="skeleton-avatar dh-skeleton-line" style="width:52px;height:52px;border-radius:50%;margin-bottom:1rem"></div>
+      <div class="dh-skeleton-line" style="width:70%"></div>
+      <div class="dh-skeleton-line" style="width:50%"></div>
+      <div class="dh-skeleton-line" style="width:85%"></div>
+      <div class="dh-skeleton-line" style="width:40%;margin-top:1rem"></div>
+    </div>
+
+    <div class="skeleton-card">
+      <div class="dh-skeleton-line" style="width:100%;height:120px;border-radius:8px;margin-bottom:1rem"></div>
+      <div class="dh-skeleton-line" style="width:60%"></div>
+      <div class="dh-skeleton-line" style="width:85%"></div>
+      <div class="dh-skeleton-line" style="width:45%"></div>
+    </div>
+
+    <div class="skeleton-card">
+      <div class="dh-skeleton-line" style="width:80%;height:20px;margin-bottom:1.5rem"></div>
+      <div class="dh-skeleton-line"></div>
+      <div class="dh-skeleton-line" style="width:90%"></div>
+      <div class="dh-skeleton-line" style="width:65%"></div>
+      <div class="dh-skeleton-line" style="width:75%;margin-top:1rem"></div>
+      <div class="dh-skeleton-line" style="width:50%"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GLITCH DEMO ═════════════════════════════════════════════ -->
+<div class="section" style="padding-top:2rem">
+  <h2 class="section-title">Text Effects</h2>
+  <p class="section-sub">Switch to Devil Mode to witness the glitch</p>
+
+  <div class="glitch-demo">
+    <div class="glitch-title dh-glitch dh-sacred-text" data-text="THE VOID SPEAKS">
+      THE VOID SPEAKS
+    </div>
+    <p style="margin-top:1rem;opacity:0.4;font-size:12px;font-family:Georgia,serif;font-style:italic">
+      Enable Devil Mode — watch reality fracture
+    </p>
+  </div>
+
+  <div style="margin-top:1.5rem; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem">
+    <div class="dh-card" style="text-align:center">
+      <div class="dh-sacred-text" style="font-size:1.2rem;margin-bottom:0.5rem">Sacred Text</div>
+      <p style="font-size:12px;opacity:0.5;font-family:Georgia">Gradient shimmer on any element</p>
+    </div>
+    <div class="dh-card" style="text-align:center">
+      <div class="dh-float" style="font-size:2rem;color:var(--dh-primary)">✦</div>
+      <p style="font-size:12px;opacity:0.5;font-family:Georgia;margin-top:4px">Floating animation class</p>
+    </div>
+    <div class="dh-card" style="text-align:center">
+      <div class="dh-pulse" style="display:inline-block;width:40px;height:40px;border-radius:50%;background:var(--dh-primary);opacity:0.6"></div>
+      <p style="font-size:12px;opacity:0.5;font-family:Georgia;margin-top:8px">Pulse glow animation</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HORROR QUOTE ════════════════════════════════════════════ -->
+<div class="horror-quote">
+  <div class="dh-divider" style="max-width:400px;margin:0 auto 2.5rem"></div>
+  <blockquote class="dh-reveal">
+    "Between divine light and infernal darkness, the writer finds their truest voice — for horror lives not in shadow alone, but in the moment light touches something that should never be seen."
+    <cite>— Divine Horror Codex</cite>
+  </blockquote>
+  <div class="dh-divider" style="max-width:400px;margin:2.5rem auto 0"></div>
+</div>
+
+<!-- ══ USAGE CODE ══════════════════════════════════════════════ -->
+<div class="section" style="padding-top:2rem">
+  <h2 class="section-title">Installation</h2>
+  <p class="section-sub">Two lines. Any HTML page. Instant transformation.</p>
+
+  <div class="usage-row">
+    <div>
+      <div class="code-block">
+<span class="c-com">&lt;!-- Add in &lt;head&gt; --&gt;</span>
+<span class="c-tag">&lt;link</span> <span class="c-attr">rel</span>=<span class="c-val">"stylesheet"</span>
+  <span class="c-attr">href</span>=<span class="c-val">"divine-horror-theme.css"</span><span class="c-tag">&gt;</span>
+
+<span class="c-com">&lt;!-- Add before &lt;/body&gt; --&gt;</span>
+<span class="c-tag">&lt;script</span> <span class="c-attr">src</span>=<span class="c-val">"divine-horror-theme.js"</span><span class="c-tag">&gt;&lt;/script&gt;</span>
+
+<span class="c-com">&lt;!-- Optional: JS API --&gt;</span>
+<span class="c-tag">&lt;script&gt;</span>
+  DivinHorror.setMode(<span class="c-val">'devil'</span>);
+  DivinHorror.toggle();
+  DivinHorror.skeleton(el, true);
+  DivinHorror.addGlitch(el);
+<span class="c-tag">&lt;/script&gt;</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="code-block" style="--c: var(--dh-border)">
+<span class="c-com">&lt;!-- Skeleton on any element --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"dh-skeleton"</span><span class="c-tag">&gt;</span>...<span class="c-tag">&lt;/div&gt;</span>
+
+<span class="c-com">&lt;!-- Glitch text (devil mode) --&gt;</span>
+<span class="c-tag">&lt;h1</span> <span class="c-attr">class</span>=<span class="c-val">"dh-glitch"</span>
+     <span class="c-attr">data-text</span>=<span class="c-val">"YOUR TEXT"</span><span class="c-tag">&gt;</span>
+  YOUR TEXT
+<span class="c-tag">&lt;/h1&gt;</span>
+
+<span class="c-com">&lt;!-- Sacred gradient text --&gt;</span>
+<span class="c-tag">&lt;h2</span> <span class="c-attr">class</span>=<span class="c-val">"dh-sacred-text"</span><span class="c-tag">&gt;</span>Title<span class="c-tag">&lt;/h2&gt;</span>
+
+<span class="c-com">&lt;!-- Glow card --&gt;</span>
+<span class="c-tag">&lt;div</span> <span class="c-attr">class</span>=<span class="c-val">"dh-card"</span><span class="c-tag">&gt;</span>...<span class="c-tag">&lt;/div&gt;</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ═════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-title dh-sacred-text">Divine Horror Theme</div>
+  <p class="footer-sub" style="margin-top:0.5rem">God × Devil · Universal CSS + JS · CDN Ready · v1.0</p>
+  <div class="dh-divider" style="max-width:300px;margin:1.5rem auto"></div>
+  <div class="hero-badge-row">
+    <span class="dh-badge">☀ Ctrl+G God</span>
+    <span class="dh-badge">☾ Ctrl+D Devil</span>
+  </div>
+</footer>
+
+<!-- ══ THEME ENGINE ════════════════════════════════════════════ -->
+<script src="../animations/animations.js"></script>
+
+<!-- Keyboard shortcuts demo -->
+<script>
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === 'g') { DivinHorror.setMode('god'); }
+    if (e.ctrlKey && e.key === 'd') { DivinHorror.setMode('devil'); }
+  });
+</script>
+</body>
+</html>

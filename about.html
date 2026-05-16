@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    
+    <!-- FONT AWESOME FIRST (Priority) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="../animations/animations.css">
+    <link rel="stylesheet" href="about.css">
+</head>
+<body>
+
+    <button id="menuBtn" aria-label="Open menu">
+        <i class="fas fa-bars"></i> <!-- fas class added -->
+    </button>
+
+    <aside class="sidebar" aria-hidden="true">
+        <div class="sidebar-top">
+            <h2>My Menu</h2>
+            <button id="closeBtn" aria-label="Close menu">
+                <i class="fas fa-xmark"></i> <!-- fas class added -->
+            </button>
+        </div>
+
+        <nav class="nav-list" role="navigation">
+            <a href="../reading page/index.html">
+                <i class="fas fa-book-open"></i><span>Stories</span>
+            </a>
+            <a href="../writing page/index.html">
+                <i class="fas fa-pen-nib"></i><span>writing</span>
+            </a>
+            <a href="../account/account.html">
+                <i class="fas fa-user"></i><span>account</span> <!-- Changed to user -->
+            </a>
+            <a href="../about/about.html">
+                <i class="fas fa-circle-info"></i><span>About</span>
+            </a>
+            <a href="../log in and sign page/sign in.html">
+                <i class="fas fa-user-plus"></i><span>sign up</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <small>© <span id="year"></span> MySite</small>
+        </div>
+    </aside>
+
+    <div id="overlay"></div>
+    
+    <div class="bg-img"></div>
+
+    <div class="about-container">
+        <h1 class="title">About Us</h1>
+        <p class="text">
+            Welcome to our Digital Realm! We are dedicated to creating smooth,
+            fast, and modern websites, tools, and scripts. Our goal is to 
+            bring ideas to life with clean UI and powerful features.
+        </p>
+
+        <div class="info-box">
+            <h2>The Five Elements</h2>
+            <p>Experience Fire, Water, Earth, Sky, and Life themes.</p>
+        </div>
+
+        <div class="info-box">
+            <h2>Library of Creation</h2>
+            <p>Read ancient wisdom or write your own destiny.</p>
+        </div>
+
+        <a href="../home page/index.html" class="btn">Back to Home</a>
+    </div>
+
+    <script src="../animations/animations.js"></script>
+    <script src="about.js"></script>
+</body>
+</html>

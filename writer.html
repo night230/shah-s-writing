@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WriteSpace — Writing Platform (Single file)</title>
+<link rel="stylesheet" href="writer.css">
+  <link rel ="stylesheet" href="../animations/animations.css">
+</head>
+<body>
+  <header>
+    <div class="brand">WriteSpace</div>
+    <div class="small">Your place to write & publish</div>
+    <div class="spacer"></div>
+    <div id="top-controls"></div>
+  </header>
+
+  <main class="container">
+    <!-- LEFT NAV -->
+    
+
+    <!-- EDITOR / MAIN -->
+    <section class="card editor-wrap" id="main-col">
+      <div id="editor-top" style="display:flex;gap:8px;align-items:center;justify-content:space-between">
+        <input id="post-title" class="title-input" placeholder="Post title..." />
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn tool" id="save-draft">Save draft</button>
+          <button class="btn tool" id="publish-post">Publish</button>
+        </div>
+      </div>
+
+      <div class="toolbar" id="toolbar">
+        <button class="tool" data-cmd="bold"><b>B</b></button>
+        <button class="tool" data-cmd="italic"><i>I</i></button>
+        <button class="tool" data-cmd="underline"><u>U</u></button>
+        <button class="tool" data-cmd="h1">H1</button>
+        <button class="tool" data-cmd="h2">H2</button>
+        <button class="tool" id="insert-link">Link</button>
+        <button class="tool" id="insert-image">Image</button>
+        <button class="tool" data-cmd="ul">• List</button>
+        <button class="tool" data-cmd="ol">1. List</button>
+        <button class="tool" id="clear-format">Clear</button>
+      </div>
+
+      <div id="editor" class="editor" contenteditable="true" spellcheck="true" placeholder="Write your story..."></div>
+    </section>
+
+    <!-- RIGHT: POSTS -->
+    <aside class="card" id="right-col">
+
+      <div style="margin-bottom:10px">
+        <input id="search-posts" placeholder="Search posts..." style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit"/>
+      </div>
+
+      <div class="posts-list" id="posts-list"></div>
+    </aside>
+  </main>
+
+  <footer>Made with ♥ — WriteSpace</footer>
+
+  <!-- LOGIN / SIGNUP MODAL -->
+  <div id="modal-root" style="display:none"></div>
+
+<script src="writer.js"></script>
+  <script src="../animations/animations.js"></script>
+</body>
+</html>
